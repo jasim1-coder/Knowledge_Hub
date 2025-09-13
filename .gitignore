@@ -15,7 +15,12 @@
 *.userprefs
 
 
-.env
+
+# backend/.env
+
+
+
+*.env
 .env.example
 # Mono auto generated files
 mono_crash.*
