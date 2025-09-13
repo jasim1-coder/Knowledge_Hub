@@ -1,5 +1,5 @@
 // src/pages/HomePage.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getHealth } from "../services/api";
 import type { HealthResponse } from "../services/api";
 
