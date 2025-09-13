@@ -1,11 +1,20 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿// Controllers/HealthController.cs
 using Microsoft.AspNetCore.Mvc;
 
 namespace KnowledgeHub.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class HealthCheckController : ControllerBase
+    [Route("api/[controller]")]
+    public class HealthController : ControllerBase
     {
+        [HttpGet]
+        public IActionResult GetHealth()
+        {
+            return Ok(new
+            {
+                status = "OK",
+                time = DateTime.UtcNow
+            });
+        }
     }
 }
