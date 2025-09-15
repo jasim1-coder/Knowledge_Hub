@@ -7,7 +7,8 @@ export const Navbar = () => {
       <h1 style={{ display: "inline", marginRight: "2rem" }}>Knowledge Hub</h1>
       <Link style={{ marginRight: "1rem", color: "#fff" }} to="/">Home</Link>
       <Link style={{ marginRight: "1rem", color: "#fff" }} to="/chat">Chat</Link>
-      <Link style={{ color: "#fff" }} to="/upload">Upload</Link>
+      <Link style={{marginRight: "1rem",  color: "#fff" }} to="/upload">Upload</Link>
+      <Link style={{ color: "#fff" }} to="/documents">Documents</Link>
     </nav>
   );
 };

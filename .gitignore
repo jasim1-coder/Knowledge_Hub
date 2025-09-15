@@ -21,7 +21,7 @@
 
 
 *.env
-.env.example
+*.env.example
 # Mono auto generated files
 mono_crash.*
 

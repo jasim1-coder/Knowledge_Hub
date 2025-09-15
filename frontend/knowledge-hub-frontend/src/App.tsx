@@ -4,6 +4,7 @@ import { Navbar } from "./components/Navbar";
 import { HomePage } from "./pages/HomePage";
 import { ChatPage } from "./pages/ChatPage";
 import { UploadPage } from "./pages/UploadPage";
+import { DocumentsPage } from "./pages/DocumentsPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/upload" element={<UploadPage />} />
+        <Route path="/documents" element={<DocumentsPage />} />
       </Routes>
     </Router>
   );

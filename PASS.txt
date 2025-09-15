@@ -1,0 +1,3 @@
+YourStrong!Passw0rd
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P YourStrong!Passw0rd-d DocChatDB
