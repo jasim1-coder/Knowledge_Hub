@@ -1,4 +1,5 @@
 import  { useState } from "react";
+import Navigation from "../components/Navigation";
 
 export const ChatPage = () => {
   const [messages, setMessages] = useState<{ sender: string; text: string }[]>(
@@ -14,6 +15,7 @@ export const ChatPage = () => {
 
   return (
     <div className="flex h-screen">
+      <Navigation />
       <main className="flex-1 p-6 bg-gray-100 flex flex-col">
         <h1 className="text-2xl font-bold mb-4">Chat with Documents</h1>
         

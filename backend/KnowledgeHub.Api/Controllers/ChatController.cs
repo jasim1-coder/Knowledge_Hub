@@ -1,4 +1,5 @@
-﻿using KnowledgeHub.Api.Services.Interface;
+﻿using KnowledgeHub.Api.DTOs;
+using KnowledgeHub.Api.Services.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +17,12 @@ namespace KnowledgeHub.Api.Controllers
         }
 
         [HttpPost("ask")]
-        public async Task<IActionResult> AskQuestion([FromQuery] Guid userId, [FromBody] string question)
+        public async Task<IActionResult> Ask([FromBody] ChatRequestDto dto)
         {
-            var answer = await _chatService.AskQuestionAsync(userId, question);
-            return Ok(new { Answer = answer });
+            var response = await _chatService.AskQuestionAsync(dto);
+            return Ok(response);
         }
+
     }
 
 }

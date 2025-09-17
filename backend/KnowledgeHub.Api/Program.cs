@@ -4,6 +4,7 @@ using KnowledgeHub.Api.Services;
 using KnowledgeHub.Api.Services.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using OpenAI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,14 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+
+builder.Services.AddSingleton<OpenAIClient>(provider =>
+{
+    var apiKey = builder.Configuration["OpenAI:ApiKey"];
+    return new OpenAIClient(apiKey);
+});
+
+builder.Services.AddScoped<IRagService, RagService>();
 
 var app = builder.Build();
 

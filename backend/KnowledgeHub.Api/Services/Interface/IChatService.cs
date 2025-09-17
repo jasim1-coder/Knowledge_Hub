@@ -1,8 +1,10 @@
-﻿namespace KnowledgeHub.Api.Services.Interface
+﻿using KnowledgeHub.Api.DTOs;
+
+namespace KnowledgeHub.Api.Services.Interface
 {
     public interface IChatService
     {
-        Task<string> AskQuestionAsync(Guid userId, string question, List<Guid>? documentIds = null);
-
+        Task<ChatResponseDto> AskQuestionAsync(ChatRequestDto dto);
     }
+
 }

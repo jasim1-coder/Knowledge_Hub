@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KnowledgeHub.Api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250915085510_Initialcreate")]
+    [Migration("20250916055157_Initialcreate")]
     partial class Initialcreate
     {
         /// <inheritdoc />
@@ -24,6 +24,52 @@ namespace KnowledgeHub.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Document", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsProcessed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastProcessedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Documents");
+                });
 
             modelBuilder.Entity("KnowledgeHub.Api.Models.Chat", b =>
                 {
@@ -44,33 +90,6 @@ namespace KnowledgeHub.Api.Migrations
                     b.ToTable("Chats");
                 });
 
-            modelBuilder.Entity("KnowledgeHub.Api.Models.Document", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UploadedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Documents");
-                });
-
             modelBuilder.Entity("KnowledgeHub.Api.Models.DocumentSection", b =>
                 {
                     b.Property<Guid>("Id")
@@ -83,6 +102,15 @@ namespace KnowledgeHub.Api.Migrations
 
                     b.Property<Guid>("DocumentId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("EmbeddingJson")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourcePage")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -137,6 +165,17 @@ namespace KnowledgeHub.Api.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Document", b =>
+                {
+                    b.HasOne("KnowledgeHub.Api.Models.User", "User")
+                        .WithMany("Documents")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("KnowledgeHub.Api.Models.Chat", b =>
                 {
                     b.HasOne("KnowledgeHub.Api.Models.User", "User")
@@ -148,20 +187,9 @@ namespace KnowledgeHub.Api.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("KnowledgeHub.Api.Models.Document", b =>
-                {
-                    b.HasOne("KnowledgeHub.Api.Models.User", "User")
-                        .WithMany("Documents")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("KnowledgeHub.Api.Models.DocumentSection", b =>
                 {
-                    b.HasOne("KnowledgeHub.Api.Models.Document", "Document")
+                    b.HasOne("Document", "Document")
                         .WithMany("Sections")
                         .HasForeignKey("DocumentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -181,14 +209,14 @@ namespace KnowledgeHub.Api.Migrations
                     b.Navigation("Chat");
                 });
 
+            modelBuilder.Entity("Document", b =>
+                {
+                    b.Navigation("Sections");
+                });
+
             modelBuilder.Entity("KnowledgeHub.Api.Models.Chat", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("KnowledgeHub.Api.Models.Document", b =>
-                {
-                    b.Navigation("Sections");
                 });
 
             modelBuilder.Entity("KnowledgeHub.Api.Models.User", b =>

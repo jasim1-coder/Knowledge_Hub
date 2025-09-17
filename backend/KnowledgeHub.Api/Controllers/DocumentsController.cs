@@ -18,22 +18,34 @@ namespace KnowledgeHub.Api.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> Upload([FromForm] DocumentUploadDto dto)
         {
-            if (dto.File == null)
-                return BadRequest("No file provided");
-
-            // Use provided UserId or generate a new one
-            var userId = dto.UserId ?? Guid.NewGuid();
-
-            // Upload document
-            var doc = await _documentService.UploadDocumentAsync(userId, dto.File);
-
-            return Ok(new
+            try
             {
-                doc.Id,
-                doc.FileName,
-                doc.FilePath,
-                doc.UserId
-            });
+                if (dto.File == null)
+                    return BadRequest(new { error = "No file provided" });
+
+                var userId = dto.UserId ?? Guid.NewGuid();
+                var doc = await _documentService.UploadDocumentAsync(userId, dto.File);
+
+                return CreatedAtAction(nameof(GetUserDocuments),
+                    new { userId = doc.UserId },
+                    new
+                    {
+                        doc.Id,
+                        doc.FileName,
+                        doc.FileSize,
+                        doc.Status,
+                        doc.UserId,
+                        SectionCount = doc.Sections.Count
+                    });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { error = "An error occurred while processing the document" });
+            }
         }
 
         //[HttpGet("user/{userId}")]

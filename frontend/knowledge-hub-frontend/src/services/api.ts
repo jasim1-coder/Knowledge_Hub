@@ -26,6 +26,30 @@ export interface Document {
 }
 
 
+export interface Document {
+  id: string;
+  name: string;
+  size: string;
+  uploadTime: string;
+  status: 'indexed' | 'indexing';
+  type: 'pdf' | 'docx' | 'txt';
+}
+
+export interface ChatMessage {
+  id: string;
+  type: 'user' | 'assistant';
+  content: string;
+  timestamp: string;
+}
+
+export interface User {
+  name: string;
+  email: string;
+  isAuthenticated: boolean;
+}
+
+export type ViewType = 'login' | 'register' | 'dashboard' | 'upload' | 'chat';
+
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 

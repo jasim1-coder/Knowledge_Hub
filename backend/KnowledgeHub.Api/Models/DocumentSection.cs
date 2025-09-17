@@ -7,9 +7,15 @@
 
         public int Order { get; set; }
 
+        public int SourcePage { get; set; } // optional: page number for PDFs
+
+
 
         // FK
         public Guid DocumentId { get; set; }
         public Document Document { get; set; } = null!;
+
+        // Embedding vector stored as JSON or string
+        public string? EmbeddingJson { get; set; }
     }
 }
