@@ -4,10 +4,13 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>034eaff5-3d34-4566-8733-a7a39f6a44d1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
 	  <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.10" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.9" />
@@ -18,6 +21,7 @@
 	  <PackageReference Include="OpenAI" Version="2.4.0" />
 	  <PackageReference Include="PdfPig" Version="0.1.11" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+	  <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
 
   </ItemGroup>
 

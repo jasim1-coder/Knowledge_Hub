@@ -1,10 +1,10 @@
-﻿namespace KnowledgeHub.Api.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace KnowledgeHub.Api.Models
 {
-    public class User
+    public class User : IdentityUser<Guid>
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public string UserName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
+
 
         // Navigation
         public ICollection<Document> Documents { get; set; } = new List<Document>();
