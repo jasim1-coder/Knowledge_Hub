@@ -18,11 +18,6 @@ const sampleDocs: Document[] = [
   { name: "Company Policies.pdf", date: "1/10/2024", status: "Indexed", size: "3.2 MB", type: "PDF" },
 ];
 
-interface Action {
-  Icon: React.ElementType; // ✅ Correct type for react-icons
-  onClick: (doc: Document) => void;
-  color: string;
-}
 
 
 export const DocumentsPage: React.FC = () => {
