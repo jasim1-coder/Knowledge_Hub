@@ -26,6 +26,8 @@ namespace KnowledgeHub.Api.Services
             _logger = logger;
         }
 
+
+
         public async Task GenerateEmbeddingsAsync(DocumentSection section)
         {
             if (string.IsNullOrWhiteSpace(section.Content))
@@ -54,6 +56,21 @@ namespace KnowledgeHub.Api.Services
                 throw;
             }
         }
+
+        public async Task<int> GenerateEmbeddingsForDocumentAsync(Guid documentId)
+        {
+            var sections = await _context.DocumentSections
+                .Where(s => s.DocumentId == documentId && string.IsNullOrEmpty(s.EmbeddingJson))
+                .ToListAsync();
+
+            foreach (var section in sections)
+            {
+                await GenerateEmbeddingsAsync(section);
+            }
+
+            return sections.Count;
+        }
+
 
         public async Task<List<DocumentSection>> QueryRelevantSectionsAsync(
             string question,

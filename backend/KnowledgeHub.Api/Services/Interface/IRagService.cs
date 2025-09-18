@@ -43,5 +43,8 @@ namespace KnowledgeHub.Api.Services.Interface
         /// </summary>
         /// <returns>Number of sections without embeddings</returns>
         Task<int> GetSectionsWithoutEmbeddingsCountAsync();
+
+
+        Task<int> GenerateEmbeddingsForDocumentAsync(Guid documentId);
     }
 }

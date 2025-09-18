@@ -98,26 +98,30 @@ namespace KnowledgeHub.Api.Controllers
         /// <summary>
         /// Generate embeddings for a specific document section
         /// </summary>
-        [HttpPost("generate-embedding/{sectionId}")]
-        public async Task<ActionResult> GenerateEmbedding(Guid sectionId)
+        [HttpPost("generate-embeddings/document/{documentId}")]
+        public async Task<ActionResult> GenerateDocumentEmbeddings(Guid documentId)
         {
             try
             {
-                // You'll need to implement a method to get DocumentSection by ID
-                // This assumes you have access to the context or a document service
-                // var section = await _context.DocumentSections.FindAsync(sectionId);
+                var processedSections = await _ragService.GenerateEmbeddingsForDocumentAsync(documentId);
 
-                // For now, returning a placeholder response
-                // await _ragService.GenerateEmbeddingsAsync(section);
+                if (processedSections == 0)
+                    return Ok(new { message = "All sections already have embeddings." });
 
-                return Ok(new { message = "Embedding generation started", sectionId });
+                return Ok(new
+                {
+                    message = "Embeddings generated for document sections.",
+                    documentId,
+                    processedSections
+                });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error generating embedding for section {SectionId}", sectionId);
+                _logger.LogError(ex, "Error generating embeddings for document {DocumentId}", documentId);
                 return StatusCode(500, new { error = "An error occurred while generating embeddings." });
             }
         }
+
 
         /// <summary>
         /// Check if a document has embeddings generated
