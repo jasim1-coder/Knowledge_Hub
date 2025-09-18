@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { FiTrash2, FiDownload } from "react-icons/fi";
 
 // Document type
 interface Document {
@@ -33,10 +32,6 @@ export const DocumentsPage: React.FC = () => {
     doc.name.toLowerCase().includes(search.toLowerCase())
   );
 
-const actions: Action[] = [
-  { Icon: FiDownload, onClick: (doc) => alert(`Download ${doc.name}`), color: "text-blue-500 hover:text-blue-700" },
-  { Icon: FiTrash2, onClick: (doc) => alert(`Delete ${doc.name}`), color: "text-red-500 hover:text-red-700" },
-];
 
   return (
     <div className="flex h-screen">
