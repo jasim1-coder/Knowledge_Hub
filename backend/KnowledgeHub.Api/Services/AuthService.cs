@@ -48,6 +48,7 @@ namespace KnowledgeHub.Api.Services
                 UserName = user.UserName!,
                 Email = user.Email!,
                 Token = token,
+                UserId = user.Id,
                 Roles = roles.ToList()
             };
         }
@@ -66,6 +67,7 @@ namespace KnowledgeHub.Api.Services
                 UserName = user.UserName!,
                 Email = user.Email!,
                 Token = token,
+                UserId = user.Id,
                 Roles = roles.ToList()
             };
         }

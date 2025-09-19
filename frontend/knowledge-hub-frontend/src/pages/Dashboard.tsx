@@ -3,12 +3,29 @@ import RecentActivity from "../components/RecentActivity";
 import { Link } from "react-router-dom";
 
 const Dashboard = () => {
+  type User = {
+    userName: string;
+    email: string;
+    roles: string[];
+    userId: string;
+  };
+
+  const storedUser = localStorage.getItem("user");
+  let user: User | null = null;
+
+  if (storedUser) {
+    user = JSON.parse(storedUser) as User;
+    console.log(`Welcome back, ${user.userName}`);
+  }
+
   return (
     <div className="flex h-screen">
       <main className="flex-1 p-8 bg-gray-100 overflow-y-auto">
         {/* Header */}
         <header className="mb-8">
-          <h1 className="text-3xl font-bold">Welcome back, John Doe 👋</h1>
+          <h1 className="text-3xl font-bold">
+            Welcome back, {user ? user.userName : "Guest"} 👋
+          </h1>
           <p className="text-gray-600">
             Ready to chat with your documents? Here's what you can do today.
           </p>

@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   Upload,
@@ -7,12 +8,37 @@ import {
   Settings,
   User,
   LogOut,
+  User2
 } from "lucide-react";
 import { useState } from "react";
 
 const Navigation = () => {
+
+    type User = {
+    userName: string;
+    email: string;
+    roles: string[];
+    userId: string;
+  };
+
+  const storedUser = localStorage.getItem("user");
+  let user: User | null = null;
+
+  if (storedUser) {
+    user = JSON.parse(storedUser) as User;
+    console.log(`Welcome back, ${user.userName}`);
+  }
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  // Logout function in React
+const logout = () => {
+  localStorage.removeItem("token"); 
+  localStorage.removeItem("user");
+  navigate("/login"); // redirect to login
+};
+
 
   const navItems = [
     { name: "Dashboard", path: "/", icon: <LayoutDashboard size={18} /> },
@@ -58,10 +84,13 @@ const Navigation = () => {
           onClick={() => setOpen(!open)}
           className="flex items-center gap-3 w-full p-2 rounded hover:bg-gray-700 transition-colors"
         >
-          <div className="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center text-sm font-bold">
-            J
-          </div>
-          <span className="flex-1 text-left">John Doe</span>
+          <User2 className="w-7 h-7 rounded-full bg-gray-600 flex items-center justify-center text-sm font-bold">
+            
+          </User2>
+          <span className="flex-1 text-left">
+            {user ? user.userName : "Guest"}
+            
+          </span>
         </button>
 
         {open && (
@@ -73,10 +102,13 @@ const Navigation = () => {
               <User size={16} /> Profile Settings
             </Link>
             <button
-              onClick={() => alert("Logging out...")}
+              onClick={logout}
               className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-gray-700"
             >
-              <LogOut size={16} /> Logout
+              <Link to="/Login" className="flex items-center gap-2 w-full text-left px-3 py-2 hover:bg-gray-700"
+>
+              <LogOut size={16} 
+             />Logout</Link>
             </button>
           </div>
         )}

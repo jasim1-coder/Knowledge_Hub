@@ -1,21 +1,45 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: integrate API for registration
-    console.log("Registering:", { name, email, password });
+    setError("");
+
+    try {
+      const response = await fetch("http://localhost:5117/api/Auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userName: name,
+          email,
+          password
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Registration failed");
+      }
+
+      // Success → redirect to login
+      navigate("/login");
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-50">
       <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
         <h1 className="text-2xl font-bold text-center mb-6">Create Account</h1>
+        {error && <p className="text-red-500 mb-2 text-center">{error}</p>}
         <form onSubmit={handleRegister} className="space-y-4">
           <div>
             <label className="block text-gray-700">Full Name</label>
