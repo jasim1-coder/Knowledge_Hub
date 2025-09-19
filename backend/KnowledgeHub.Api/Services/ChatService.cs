@@ -56,6 +56,56 @@ namespace KnowledgeHub.Api.Services
                 Answer = answer,
                 Sources = new List<string>() // optionally, you can include document/chunk IDs if needed
             };
+
+
+        }
+
+        // 🔹 Get all chats of a user with messages
+        public async Task<List<ChatDto>> GetUserChatsAsync(Guid userId)
+        {
+            return await _context.Chats
+                .Where(c => c.UserId == userId)
+                .Include(c => c.Messages)
+                .OrderByDescending(c => c.CreatedAt)
+                .Select(c => new ChatDto
+                {
+                    Id = c.Id,
+                    CreatedAt = c.CreatedAt,
+                    Messages = c.Messages
+                        .OrderBy(m => m.SentAt)
+                        .Select(m => new MessageDto
+                        {
+                            Id = m.Id,
+                            Role = m.Role,
+                            Content = m.Content,
+                            SentAt = m.SentAt
+                        }).ToList()
+                })
+                .ToListAsync();
+        }
+
+        // 🔹 Get a single chat with messages
+        public async Task<ChatDto?> GetChatByIdAsync(Guid chatId)
+        {
+            return await _context.Chats
+                .Where(c => c.Id == chatId)
+                .Include(c => c.Messages)
+                .Select(c => new ChatDto
+                {
+                    Id = c.Id,
+                    CreatedAt = c.CreatedAt,
+                    Messages = c.Messages
+                        .OrderBy(m => m.SentAt)
+                        .Select(m => new MessageDto
+                        {
+                            Id = m.Id,
+                            Role = m.Role,
+                            Content = m.Content,
+                            SentAt = m.SentAt
+                        }).ToList()
+                })
+                .FirstOrDefaultAsync();
+
         }
     }
 }

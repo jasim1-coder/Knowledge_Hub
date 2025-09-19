@@ -23,6 +23,24 @@ namespace KnowledgeHub.Api.Controllers
             return Ok(response);
         }
 
+
+        // 🔹 Get all chats for a user
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetUserChats(Guid userId)
+        {
+            var chats = await _chatService.GetUserChatsAsync(userId);
+            return Ok(chats);
+        }
+
+        // 🔹 Get a specific chat with messages
+        [HttpGet("{chatId}")]
+        public async Task<IActionResult> GetChat(Guid chatId)
+        {
+            var chat = await _chatService.GetChatByIdAsync(chatId);
+            if (chat == null) return NotFound();
+            return Ok(chat);
+        }
+
     }
 
 }
