@@ -46,10 +46,6 @@ export const UploadPage = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
-      alert(`✅ Uploaded successfully: ${response.data.fileName}`);
-
-
       alert(`✅ Uploaded successfully: ${response.data.fileName}`);
       console.log(response.data);
     } catch (error: any) {
