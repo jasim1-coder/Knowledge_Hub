@@ -146,7 +146,7 @@ export const DocumentsPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {filteredDocs.map((doc) => {
+                {filteredDocs.map((doc: Document) => {
                   const status = embeddingsStatus[doc.id];
                   return (
                     <tr key={doc.id}>
